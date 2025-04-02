@@ -26,7 +26,7 @@ def reset_tasks():
     today = datetime.date.today().isoformat()
     cursor.execute("SELECT last_completed FROM streak WHERE id=1")
     last_date = cursor.fetchone()
-    
+
     if last_date and last_date[0] != today:
         cursor.execute("UPDATE tasks SET completed=0")
         db.commit()
@@ -40,22 +40,22 @@ def toggle_task(task_id, var):
 def update_ui():
     for widget in frame.winfo_children():
         widget.destroy()
-    
+
     cursor.execute("SELECT * FROM tasks")
     tasks = cursor.fetchall()
-    
+
     for task in tasks:
         var = tk.IntVar(value=task[2])
         chk = tk.Checkbutton(frame, text=task[1], variable=var,
                              command=lambda t=task[0], v=var: toggle_task(t, v))
         chk.pack(anchor='w', pady=2)
-    
+
     cursor.execute("SELECT count FROM streak WHERE id=1")
     streak = cursor.fetchone()
     streak_count = streak[0] if streak else 0
     flame_emoji = " 🔥" if streak_count > 0 else ""
     streak_label.config(text=f"Streak: {streak_count}{flame_emoji}")
-    
+
     date_label.config(text=f"Heute: {datetime.date.today().strftime('%d.%m.%Y')}")
 
 def complete_day():
