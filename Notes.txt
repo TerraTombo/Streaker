@@ -4,14 +4,12 @@ Datenbanken:
 
 Funktionen:
 
-load_tasks # aufgaben laden und schauen, ob heute schon erfüllt
+update_gui # haupt funktion, ruft die daten aus der datenbank ab und macht das sie angezeigt werden, überprüfen, dass die streaks noch gültig sind
 
 toggle_tasks # aufgaben ankreuzen, keine Veränderung an der DB
 
-update_gui # haupt funktion, ruft die daten aus der datenbank ab und macht das sie angezeigt werden
-
-complete_day # angekreuzte aufgaben in datenbank schreiben, als last_completed, streaks um 1 erhöhen
-
 add_task # neue Task oder Streak hinzufügen
 
+delete_task # eine Task oder Streak entfernen
 
+complete_day # angekreuzte aufgaben in datenbank schreiben, als last_completed, streaks um 1 erhöhen
