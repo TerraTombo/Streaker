@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import sqlite3 
 import datetime
+from datetime import date
 
 # Datenbank einrichten
 db = sqlite3.connect("streaks.db")
@@ -10,7 +11,8 @@ cursor.execute("""
                CREATE TABLE IF NOT EXISTS tasks (
                if INTEGER PRIMARY KEY, 
                name TEXT,
-               last_completed DATE
+               last_completed DATE,
+               completed_before DATE
     )
 """)
 cursor.execute("""
@@ -18,35 +20,42 @@ cursor.execute("""
                if INTEGER PRIMARY KEY, 
                name TEXT,
                streak INTEGER DEFAULT 0,
-               last_completed DATE
+               last_completed DATE,
+               completed_before DATE
     )
 """)
 db.commit()
 
 
 def update_ui():
+    today = datetime.date.today().isoformat()
+
+    #alle vorherigen Kinder zerstören
     for widget in frame.winfo_children():
         widget.destroy()
-
+    #alle daten aus der Datenbank ziehen und darstellen
     cursor.execute("SELECT * FROM tasks")
     tasks = cursor.fetchall()
+
+    for task in tasks:
+        task_date = date.fromisoformat(task[2])  # Konvertiere "YYYY-MM-DD" in ein Date-Objekt
+        var = 0
+        if task_date == today:
+            var = tk.IntVar(1)
+
+        chk = tk.Checkbutton(frame, text=task[1], variable=var,
+                             command=lambda t=task[0], v=var: toggle_task(t, v, today))
+        chk.pack(anchor='w', pady=2)
 
     cursor.execute("SELECT * FROM streaks")
     streaks = cursor.fetchall()
 
-    for task in tasks:
-        var = tk.IntVar(value=task[2])
-        chk = tk.Checkbutton(frame, text=task[1], variable=var,
-                             command=lambda t=task[0], v=var: toggle_task(t, v))
-        chk.pack(anchor='w', pady=2)
-
     for streak in streaks:
         var = tk.IntVar(value=streak[2])
         chk = tk.Checkbutton(frame, text=streak[1], variable=var,
-                             command=lambda t=streak[0], v=var: toggle_task(t, v))
+                             command=lambda t=streak[0], v=var: toggle_streak(t, v, today))
         chk.pack(anchor='w', pady=2)
 
-    cursor.execute("SELECT count FROM streak WHERE id=1")
     streak = cursor.fetchone()
     streak_count = streak[0] if streak else 0
     flame_emoji = " 🔥" if streak_count > 0 else ""
@@ -54,13 +63,19 @@ def update_ui():
 
     date_label.config(text=f"Heute: {datetime.date.today().strftime('%d.%m.%Y')}")
 
-
-# task beendet oder nicht?
-def toggle_task(task_id, var):
-    today = datetime.date.today().isoformat()
-    new_status = var.get()
-    if new_status == 1:
+def toggle_task(task_id, var, today):
+    if var.get() == 1:
         cursor.execute("UPDATE tasks SET last_completed=? WHERE id=?", (today, task_id))
+    else:
+        cursor.execute("UPDATE tasks SET last_completed=completed_before WHERE id=?", (task_id))
+    db.commit()
+    update_ui()
+
+def toggle_streak(task_id, var, today):
+    if var.get() == 1:
+        cursor.execute("UPDATE streaks SET last_completed=? WHERE id=?", (today, task_id))
+    else:
+        cursor.execute("UPDATE streaks SET last_completed=completed_before WHERE id=?", (task_id))
     db.commit()
     update_ui()
 
