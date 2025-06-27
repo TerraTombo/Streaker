@@ -1,0 +1,15 @@
+{
+  "streaks": [
+    {
+      "name": "Streak 1",
+      "streak": 2,
+      "last_done": "2025-06-28"
+    }
+  ],
+  "tasks": [
+    {
+      "name": "Task 1",
+      "last_done": "2025-06-28"
+    }
+  ]
+}

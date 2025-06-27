@@ -21,7 +21,7 @@ Im Detail:
 
 update_gui: 
 alle Kinder zerstören
-Taskdaten aus der Datenbank extrahieren
+Taskdaten aus der Datenbank extrahieren Count
 in for each Schleife last_completed mit dem heutigen Datum vergleichen
 checkbutton dem frame hinzufügen
 packen
