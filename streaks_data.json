@@ -2,14 +2,19 @@
   "streaks": [
     {
       "name": "Streak 1",
-      "streak": 10,
-      "last_done": "2025-06-28"
+      "streak": 1,
+      "last_done": "2025-07-01"
+    },
+    {
+      "name": "niger",
+      "streak": 0,
+      "last_done": ""
     }
   ],
   "tasks": [
     {
       "name": "Task 1",
-      "last_done": "2025-06-28"
+      "last_done": "2025-07-01"
     }
   ]
 }

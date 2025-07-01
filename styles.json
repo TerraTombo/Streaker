@@ -1,21 +1,27 @@
 {
-  "current_theme": "polar",
+  "current_theme": "death_black",
   "themes": {
     "polar": {
       "bg": "#f0faff",
       "fg": "#003344",
+      "title_fg": "#003344",
+      "task_fg": "#004466",
       "button_bg": "#66ccff",
       "button_fg": "#ffffff"
     },
     "jungle": {
       "bg": "#1e392a",
       "fg": "#c5e3bf",
+      "title_fg": "#a5d6a7",
+      "task_fg": "#000000",
       "button_bg": "#4caf50",
       "button_fg": "#ffffff"
     },
     "death_black": {
       "bg": "#111111",
       "fg": "#eeeeee",
+      "title_fg": "#ffffff",
+      "task_fg": "#000000",
       "button_bg": "#333333",
       "button_fg": "#ffffff"
     }
